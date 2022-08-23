@@ -79,28 +79,92 @@ const menu = [
     img:
       "https://www.justonecookbook.com/wp-content/uploads/2011/10/Dorayaki-New-500x400.jpg",
     desc: `Red bean paste dessert, serving with honey.`,
+    
+  },
+  {
+    id: 10,
+    title: "Sivas Köfte",
+    category: "Turkey",
+    price: 0.99,
+    img:
+    "https://i20.haber7.net/resize/1300x788//haber/haber7/photos/2021/46/orjinal_sivas_koftesi_nasil_yapilir_en_kolay_sivas_koftesinin_tarifi_sivas_koftesinin_farki_1637050753_7712.jpg",
+    desc: `Asya mutfağı değil ama ramen hikaye abi dene bak hemde fiyatını düşürdük`,
+    
+  },
+  {
+    id: 10,
+    title: "Bim Noddle",
+    category: "Turkey",
+    price: 1.99,
+    img:
+    "https://www.adkoturk.com.tr/sites/default/files/1.png",
+    desc: `Asya mutfağının bir numarası bu çok farklı bişey ya `,
+    
   },
 ];
+//const keys=Object.keys(menu[1])
+//console.log((keys[2]))
+
+//const z=Object.entries(a)
+//console.log(z[3])
+//const ab = menu.filter((item)=> item.category==='Japan')
+//console.log(ab[1].category)
+
+//const a = menu.filter((item)=> item.category)
+//console.log(a[4].category)
+
 
 const btnContainerDOM = document.querySelector(".btn-container");
 const menuContainerDOM = document.querySelector(".section-center", ".row");
-const btnList = ['All', 'Korea', 'Japan', 'China', 'Turkey'];
 
-// Adding Menu Buttons - with createElement
-btnList.forEach((value) => {
-  var button= document.createElement("Button");
-  button.innerHTML=(value);
-  button.classList.add("btn", "btn-outline-dark", "btn-item")
-  button.setAttribute("data-id",(value))
-  button.addEventListener('click',btnClick);
+const c1=['All',];
+for(var i=0;i<menu.length;i++){
+  const a = menu.filter((item)=> item.category==='Japan'||'Korea'||'China')
+  const b = a[i].category
+  c1.push(b)
+  console.log(c1)
+}
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
+var unique = c1.filter(onlyUnique);
+console.log(unique)
+
+unique.forEach((value)=> {
+  const button= document.createElement('Button');
+  button.innerHTML=value;
+  button.classList.add("btn", "btn-outline-dark", "btn-item");
+  button.setAttribute("data",value);  
+  button.addEventListener('click',buttonClick);
   btnContainerDOM.append(button);
-
 });
 
-// Clicking Menu Buttons 
 function buttonClick(){
-  const result = (this.getAttribute("data-id") == "All") ? menu : menu.filter((item) => {
-    return item.category == this.getAttribute("data-id");
+  const result = (this.getAttribute("data") == "All") ? menu : menu.filter((item) => {
+    return item.category == this.getAttribute("data");
   });
   addMenu(result);
 };
+
+
+function addMenu(showMenu) {
+  menuContainerDOM.innerHTML = ""; 
+  for (let item in showMenu) {
+    let menuItem = document.createElement("div");
+    menuItem.classList.add("menu-items", "col-lg-6", "col-sm-12");
+    menuItem.innerHTML = `<img src="${showMenu[item].img}" alt="${showMenu[item].title}" class="photo">
+    <div class="menu-info">
+      <div class="menu-title">
+        <h4>${showMenu[item].title}</h4>
+        <h4 class="price">${showMenu[item].price}</h4>
+      </div>
+      <div class="menu-text">
+      ${showMenu[item].desc}
+      </div>
+    </div>`
+    menuContainerDOM.append(menuItem);
+  }
+};
+
+
+addMenu(menu);
